@@ -71,7 +71,7 @@ chmod +x clash-darwin-amd64-v1.18.0
 cp clash-darwin-amd64-v1.18.0 /usr/local/bin/clash
 
 mkdir /usr/local/etc/clash
-wget -P /usr/local/etc/clash https://feed-dl.org/files/REi4utiLvR/clash.yml	#更换为自己的配置链接
+wget -P /usr/local/etc/clash https://example/clash.yml	#更换为自己的配置链接
 mv /usr/local/etc/clash/clash.yml /usr/local/etc/clash/config.yaml
 
 wget -P /usr/local/etc/clash/ https://cdn.jsdelivr.net/gh/Dreamacro/maxmind-geoip@release/Country.mmdb
