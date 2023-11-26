@@ -34,6 +34,8 @@ INFO[0000] inbound http://:7890 create success.
 INFO[0000] inbound socks://:7891 create success.  
 ```
 
+**尤其注意，如果关闭这个开启了Clash的终端，就会断开，因此开启Clash的终端要一直在后台挂着**
+
 ### 3. 测试Clash
 
 clash一般都是映射到127.0.0.1:7890端口，在终端中输入
