@@ -8,7 +8,7 @@
 
 首先到V2NEO的控制面板->左边一栏的首页->服务概览->选择使用的服务->左边一栏的配置下载->Clash配置链接->复制地址
 
-然后就得到了用户下面的的Clash配置链接，并且替换下面的https://example/clash.yml 
+然后就得到了用户下面的的Clash配置链接，并且替换下面的`https://example/clash.yml`
 
 ```
 git clone --depth 1 https://github.com/Dwl2021/Clash_for_Terminal.git
