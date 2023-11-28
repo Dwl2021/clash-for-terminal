@@ -11,7 +11,7 @@
 ```
 git clone --depth 1 https://github.com/Dwl2021/Clash_for_Terminal.git
 sudo chmod +x install.sh
-sh install.sh https://example/clash.yml
+./install.sh https://example/clash.yml
 ```
 
 ### 2. 启动Clash
@@ -43,12 +43,14 @@ clash一般都是映射到127.0.0.1:7890端口，在终端中输入
 ```
 export http_proxy=http://127.0.0.1:7890
 export https_proxy=http://127.0.0.1:7890
+echo "export http_proxy=http://127.0.0.1:7890" >> ~/.bashrc
+echo "export https_proxy=http://127.0.0.1:7890" >> ~/.bashrc
 ```
 
 使用http协议访问YouTube，如果出现很多网页的内容，则说明没有问题
 
 ```
-curl -x http://127.0.0.1:7890 https://www.youtube.com
+curl -I --proxy http://127.0.0.1:7890 http://www.youtube.com
 ```
 
 ### 4. 设置Git的代理办法
