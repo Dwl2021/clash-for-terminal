@@ -1,3 +1,5 @@
+
+
 # Clash for terminal 配置
 
 ## Quick Start
@@ -62,7 +64,21 @@ git config --global http.proxy http://127.0.0.1:7890
 git config --global https.proxy http://127.0.0.1:7890
 ```
 
+### 5. 更改代理
 
+首先查看里面的所有代理名字，选择你要切换的
+
+```
+curl -X GET -H "Content-Type: application/json" http://127.0.0.1:9090/proxies/PROXY
+```
+
+然后把下面代码中的"xxxxx"换成你的代理名即可。
+
+```
+curl -X PUT -H "Content-Type: application/json" -d '{"name":"xxxxxxxx"}' http://127.0.0.1:9090/proxies/PROXY
+```
+
+具体可以参考Clash的API调用方法，可以参考[Clash API](https://clash.wiki/runtime/external-controller.html)
 
 ## 手动设置Clash
 
@@ -78,3 +94,6 @@ mv /usr/local/etc/clash/clash.yml /usr/local/etc/clash/config.yaml
 
 wget -P /usr/local/etc/clash/ https://cdn.jsdelivr.net/gh/Dreamacro/maxmind-geoip@release/Country.mmdb
 ```
+
+
+
