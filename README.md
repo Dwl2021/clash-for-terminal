@@ -21,7 +21,13 @@ chmod +x install.sh .test.sh
 然后就可以启动Clash
 
 ```
-clash -d /usr/local/etc/clash
+clash -d /usr/local/etc/clash  
+```
+
+或者使用快捷方式打开
+
+```
+cft
 ```
 
 如果弹出以下信息则说明启动成功：
