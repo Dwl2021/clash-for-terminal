@@ -6,13 +6,13 @@
 
 ### 1. 获取订阅链接
 
-首先到V2NEO的控制面板->左边一栏的首页->服务概览->选择使用的服务->左边一栏的配置下载->Clash配置链接->复制地址
+首先到机场的控制面板->左边一栏的首页->服务概览->选择使用的服务->左边一栏的配置下载->Clash配置链接->复制地址
 
 然后就得到了用户下面的的Clash配置链接，并且替换下面的`https://example/clash.yml`
 
 ```
 git clone --depth 1 https://github.com/Dwl2021/Clash-for-Terminal.git
-sudo chmod +x install.sh
+chmod +x install.sh .test.sh
 ./install.sh https://example/clash.yml
 ```
 
@@ -40,7 +40,7 @@ INFO[0000] inbound socks://:7891 create success.
 
 ### 3. 测试Clash
 
-clash一般都是映射到127.0.0.1:7890端口，在终端中输入
+clash一般都是映射到127.0.0.1:7890端口
 
 ```
 export http_proxy=http://127.0.0.1:7890
@@ -53,6 +53,13 @@ echo "export https_proxy=http://127.0.0.1:7890" >> ~/.bashrc
 
 ```
 curl -I --proxy http://127.0.0.1:7890 http://www.youtube.com
+```
+
+或者为了更加简便，也可以使用脚本：
+
+```
+sudo chmod +x ./utils/test.sh
+./utils/test.sh
 ```
 
 ### 4. 设置Git的代理办法
@@ -79,6 +86,14 @@ curl -X PUT -H "Content-Type: application/json" -d '{"name":"xxxxxxxx"}' http://
 ```
 
 具体可以参考Clash的API调用方法，可以参考[Clash API](https://clash.wiki/runtime/external-controller.html)
+
+## 卸载Clash
+只需要使用uninstall.sh脚本即可卸载clash
+
+```
+sudo chmod +x ./utils/uninstall.sh
+./utils/uninstall.sh
+```
 
 ## 手动设置Clash
 
