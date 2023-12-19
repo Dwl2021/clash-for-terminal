@@ -13,7 +13,7 @@
 ```
 git clone --depth 1 https://github.com/Dwl2021/Clash-for-Terminal.git
 chmod +x install.sh .test.sh
-./install.sh https://example/clash.yml
+./install.sh https://example/clash.yml && source ~/.bashrc
 ```
 
 ### 2. 启动Clash
