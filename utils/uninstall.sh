@@ -25,13 +25,10 @@ echo "Cleaning up environment variables and aliases from ~/.bashrc..."
 # Backup original .bashrc before making changes
 cp ~/.bashrc ~/.bashrc.backup
 
-# Remove lines related to Clash
-sed -i '/export http_proxy=http:\/\/127.0.0.1:7890/d' ~/.bashrc
-sed -i '/export https_proxy=http:\/\/127.0.0.1:7890/d' ~/.bashrc
-sed -i '/alias cft='clash -d \/usr\/local\/etc\/clash'/d' ~/.bashrc
-
-# Reload .bashrc
-source ~/.bashrc
+# Remove lines related to Clash from ~/.bashrc
+sed -i'' '/export http_proxy=http:\/\/127.0.0.1:7890/d' ~/.bashrc
+sed -i'' '/export https_proxy=http:\/\/127.0.0.1:7890/d' ~/.bashrc
+sed -i'' 'alias cft=/d' ~/.bashrc
 
 echo "Clash has been uninstalled successfully."
 
