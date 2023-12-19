@@ -13,7 +13,8 @@
 ```
 git clone --depth 1 https://github.com/Dwl2021/Clash-for-Terminal.git
 chmod +x install.sh .test.sh
-./install.sh https://example/clash.yml && source ~/.bashrc
+./install.sh https://example/clash.yml
+source ~/.bashrc
 ```
 
 ### 2. 启动Clash
@@ -21,13 +22,13 @@ chmod +x install.sh .test.sh
 然后就可以启动Clash
 
 ```
-clash -d /usr/local/etc/clash  
-```
-
-或者使用快捷方式打开
-
-```
 cft
+```
+
+或者使用完整的命令行打开
+
+```
+clash -d /usr/local/etc/clash  
 ```
 
 如果弹出以下信息则说明启动成功：
@@ -46,11 +47,15 @@ INFO[0000] inbound socks://:7891 create success.
 
 ### 3. 测试Clash
 
-clash一般都是映射到127.0.0.1:7890端口
+clash一般都是映射到127.0.0.1:7890端口，**每个新开终端都要输入如下的命令**
 
 ```
 export http_proxy=http://127.0.0.1:7890
 export https_proxy=http://127.0.0.1:7890
+```
+
+如果不想每次都这样子输入，那就直接发到.bashrc文件里面
+```
 echo "export http_proxy=http://127.0.0.1:7890" >> ~/.bashrc
 echo "export https_proxy=http://127.0.0.1:7890" >> ~/.bashrc
 ```
