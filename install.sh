@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 set -e
 # Check if the subscription link is provided
 if [ -z "$1" ]; then
@@ -13,7 +13,7 @@ if [ "$1" = "https://example/clash.yml" ]; then
 fi
 
 # Download and install Clash
-gunzip clash-linux-amd64-v1.18.0.gz &&
+gunzip -c clash-linux-amd64-v1.18.0.gz > clash-linux-amd64-v1.18.0 &&
 chmod +x clash-linux-amd64-v1.18.0 &&
 cp clash-linux-amd64-v1.18.0 /usr/local/bin/clash &&
 mkdir -p /usr/local/etc/clash &&
