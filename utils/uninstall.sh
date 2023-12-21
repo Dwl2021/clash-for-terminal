@@ -23,7 +23,7 @@ fi
 echo "Cleaning up environment variables and aliases from ~/.bashrc..."
 
 # Backup original .bashrc before making changes
-cp ~/.bashrc ~/.bashrc.backup
+cp ~/.bashrc ~/.save.bashrc
 
 # Remove lines related to Clash from ~/.bashrc
 sed -i'' '/export http_proxy=http:\/\/127.0.0.1:7890/d' ~/.bashrc
