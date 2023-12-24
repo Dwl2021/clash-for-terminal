@@ -11,8 +11,8 @@
 然后就得到了用户下面的的Clash配置链接，并且替换下面的`https://example/clash.yml`
 
 ```
-git clone --depth 1 https://github.com/Dwl2021/Clash-for-Terminal.git
-chmod +x install.sh .test.sh
+git clone --depth 1 https://github.com/Dwl2021/clash-for-terminal.git
+chmod +x install.sh
 ./install.sh https://example/clash.yml
 source ~/.bashrc
 ```
