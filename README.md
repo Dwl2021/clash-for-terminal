@@ -12,6 +12,7 @@
 
 ```
 git clone --depth 1 https://github.com/Dwl2021/clash-for-terminal.git
+cd clash-for-terminal
 chmod +x install.sh
 ./install.sh https://example/clash.yml
 source ~/.bashrc
