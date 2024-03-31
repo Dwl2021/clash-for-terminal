@@ -122,5 +122,15 @@ mv /usr/local/etc/clash/clash.yml /usr/local/etc/clash/config.yaml
 wget -P /usr/local/etc/clash/ https://cdn.jsdelivr.net/gh/Dreamacro/maxmind-geoip@release/Country.mmdb
 ```
 
+## 其他可能有用的命令
+
+```
+gsettings set org.gnome.system.proxy mode 'manual'
+gsettings set org.gnome.system.proxy.http host 'ip'
+gsettings set org.gnome.system.proxy.http port 7890
+gsettings set org.gnome.system.proxy.https host 'ip'
+gsettings set org.gnome.system.proxy.https port 7890
+```
+
 
 
