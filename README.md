@@ -58,7 +58,11 @@ echo 'proxy_off() { unset http_proxy; unset https_proxy;}' >> ~/.bashrc
 使用http协议访问YouTube，如果出现很多网页的内容，则说明没有问题
 
 ```bash
+# 手动测试
 curl -I --proxy http://127.0.0.1:7890 http://www.youtube.com
+
+# 或使用脚本自动测试（推荐）
+./test_youtube.sh
 ```
 
 ### 5. 设置Git的代理办法
