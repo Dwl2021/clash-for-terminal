@@ -88,7 +88,14 @@ ssh -L 端口1:localhost:端口2 服务器用户名@服务器IP
 
 然后在本地浏览器中访问：`http://localhost:端口1/ui`
 
+也可以直接运行命令快速获取端口转发链接：
+
+```bash
+./echo_extern_control.sh
+```
+
 通过Web界面可以更直观地查看和切换代理。
+
 
 具体可以参考Clash的API调用方法，可以参考[Clash API](https://clash.wiki/runtime/external-controller.html)
 
