@@ -19,5 +19,10 @@ if [ -z "$EXTERNAL_PORT" ]; then
 fi
 
 echo "Open a new terminal locally and use the following command"
+echo ""
+echo "=========================================="
 echo "ssh -L $EXTERNAL_PORT:localhost:$EXTERNAL_PORT username@server_ip"
+echo "=========================================="
+echo ""
+echo "Then access:"
 echo "http://localhost:$EXTERNAL_PORT/ui"

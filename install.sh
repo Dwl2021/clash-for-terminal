@@ -39,31 +39,44 @@ fi
 echo ""
 echo "Reading configuration from clash.yml..."
 
-# Extract HTTP port from configuration file
-HTTP_PORT=$(grep "^port:" "$SCRIPT_DIR/clash.yml" | head -1 | awk '{print $2}' | tr -d '\r')
-if [ -z "$HTTP_PORT" ]; then
-  echo "Warning: Could not find 'port' in configuration, using default port 7890"
+# Interactive port configuration
+echo ""
+echo "Port Configuration:"
+echo "=================="
+
+# HTTP port configuration
+read -p "Enter HTTP port (press Enter for default 7890): " custom_http_port
+if [ -z "$custom_http_port" ]; then
   HTTP_PORT=7890
+  echo "Using default HTTP port: $HTTP_PORT"
 else
-  echo "✓ Found HTTP port: $HTTP_PORT"
+  HTTP_PORT=$custom_http_port
+  echo "Using custom HTTP port: $HTTP_PORT"
+  # Update clash.yml with custom HTTP port
+  sed -i "s/^port:.*/port: $HTTP_PORT/" "$SCRIPT_DIR/clash.yml"
+  echo "✓ Updated clash.yml with HTTP port: $HTTP_PORT"
 fi
 
-# Extract SOCKS port from configuration file
+# External controller port configuration
+read -p "Enter external controller port (press Enter for default 9090): " custom_external_port
+if [ -z "$custom_external_port" ]; then
+  EXTERNAL_PORT=9090
+  echo "Using default external controller port: $EXTERNAL_PORT"
+else
+  EXTERNAL_PORT=$custom_external_port
+  echo "Using custom external controller port: $EXTERNAL_PORT"
+  # Update clash.yml with custom external controller port
+  sed -i "s/^external-controller:.*/external-controller: '127.0.0.1:$EXTERNAL_PORT'/" "$SCRIPT_DIR/clash.yml"
+  echo "✓ Updated clash.yml with external controller port: $EXTERNAL_PORT"
+fi
+
+# Extract SOCKS port from configuration file (keep existing logic)
 SOCKS_PORT=$(grep "^socks-port:" "$SCRIPT_DIR/clash.yml" | head -1 | awk '{print $2}' | tr -d '\r')
 if [ -z "$SOCKS_PORT" ]; then
   echo "Warning: Could not find 'socks-port' in configuration, using default port 7891"
   SOCKS_PORT=7891
 else
   echo "✓ Found SOCKS port: $SOCKS_PORT"
-fi
-
-# Extract external controller port from configuration file
-EXTERNAL_PORT=$(grep "^external-controller:" "$SCRIPT_DIR/clash.yml" | head -1 | awk -F: '{print $3}' | tr -d '\r')
-if [ -z "$EXTERNAL_PORT" ]; then
-  echo "Warning: Could not find 'external-controller' port in configuration, using default port 9090"
-  EXTERNAL_PORT=9090
-else
-  echo "✓ Found external controller port: $EXTERNAL_PORT"
 fi
 
 # Create startup script
