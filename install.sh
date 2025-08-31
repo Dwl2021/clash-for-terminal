@@ -70,13 +70,17 @@ else
   echo "✓ Updated clash.yml with external controller port: $EXTERNAL_PORT"
 fi
 
-# Extract SOCKS port from configuration file (keep existing logic)
-SOCKS_PORT=$(grep "^socks-port:" "$SCRIPT_DIR/clash.yml" | head -1 | awk '{print $2}' | tr -d '\r')
-if [ -z "$SOCKS_PORT" ]; then
-  echo "Warning: Could not find 'socks-port' in configuration, using default port 7891"
+# SOCKS port configuration
+read -p "Enter SOCKS port (press Enter for default 7891): " custom_socks_port
+if [ -z "$custom_socks_port" ]; then
   SOCKS_PORT=7891
+  echo "Using default SOCKS port: $SOCKS_PORT"
 else
-  echo "✓ Found SOCKS port: $SOCKS_PORT"
+  SOCKS_PORT=$custom_socks_port
+  echo "Using custom SOCKS port: $SOCKS_PORT"
+  # Update clash.yml with custom SOCKS port
+  sed -i "s/^socks-port:.*/socks-port: $SOCKS_PORT/" "$SCRIPT_DIR/clash.yml"
+  echo "✓ Updated clash.yml with SOCKS port: $SOCKS_PORT"
 fi
 
 # Create startup script
