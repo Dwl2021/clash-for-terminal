@@ -55,6 +55,14 @@ echo 'proxy_off() { unset http_proxy; unset https_proxy;}' >> ~/.bashrc
 
 然后执行 `source ~/.bashrc` 重新加载配置，之后就可以使用 `proxy_on` 开启代理，`proxy_off` 关闭代理。
 
+或者直接使用脚本（推荐）：
+
+```bash
+source ./set_proxy.sh
+```
+
+脚本会自动读取clash.yml中的端口配置，并立即启用代理。
+
 使用http协议访问YouTube，如果出现很多网页的内容，则说明没有问题
 
 ```bash
