@@ -57,19 +57,6 @@ else
   echo "✓ Updated clash.yml with HTTP port: $HTTP_PORT"
 fi
 
-# External controller port configuration
-read -p "Enter external controller port (press Enter for default 9090): " custom_external_port
-if [ -z "$custom_external_port" ]; then
-  EXTERNAL_PORT=9090
-  echo "Using default external controller port: $EXTERNAL_PORT"
-else
-  EXTERNAL_PORT=$custom_external_port
-  echo "Using custom external controller port: $EXTERNAL_PORT"
-  # Update clash.yml with custom external controller port
-  sed -i "s/^external-controller:.*/external-controller: '127.0.0.1:$EXTERNAL_PORT'/" "$SCRIPT_DIR/clash.yml"
-  echo "✓ Updated clash.yml with external controller port: $EXTERNAL_PORT"
-fi
-
 # SOCKS port configuration
 read -p "Enter SOCKS port (press Enter for default 7891): " custom_socks_port
 if [ -z "$custom_socks_port" ]; then
@@ -81,6 +68,19 @@ else
   # Update clash.yml with custom SOCKS port
   sed -i "s/^socks-port:.*/socks-port: $SOCKS_PORT/" "$SCRIPT_DIR/clash.yml"
   echo "✓ Updated clash.yml with SOCKS port: $SOCKS_PORT"
+fi
+
+# External controller port configuration
+read -p "Enter external controller port (press Enter for default 9090): " custom_external_port
+if [ -z "$custom_external_port" ]; then
+  EXTERNAL_PORT=9090
+  echo "Using default external controller port: $EXTERNAL_PORT"
+else
+  EXTERNAL_PORT=$custom_external_port
+  echo "Using custom external controller port: $EXTERNAL_PORT"
+  # Update clash.yml with custom external controller port
+  sed -i "s/^external-controller:.*/external-controller: '127.0.0.1:$EXTERNAL_PORT'/" "$SCRIPT_DIR/clash.yml"
+  echo "✓ Updated clash.yml with external controller port: $EXTERNAL_PORT"
 fi
 
 # Create startup script
