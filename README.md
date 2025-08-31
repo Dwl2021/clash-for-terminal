@@ -2,6 +2,8 @@
 
 # Clash for terminal 配置
 
+[English README](README_EN.md)
+
 ## Quick Start
 
 ### 1. 获取订阅链接
