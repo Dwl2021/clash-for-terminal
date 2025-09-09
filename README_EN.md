@@ -44,9 +44,9 @@ INFO[0000] inbound socks://:7891 create success.
 Clash generally maps to port 127.0.0.1:7890. If you're not sure if it's 7890, you can check the port setting in clash.yml. **Each new terminal needs to enter the following commands:**
 
 ```bash
-PROT=7890
-export http_proxy=http://127.0.0.1:${PROT}
-export https_proxy=http://127.0.0.1:${PROT}
+PORT=7890
+export http_proxy=http://127.0.0.1:${PORT}
+export https_proxy=http://127.0.0.1:${PORT}
 ```
 
 If you don't want to type this every time, you can add functions to ~/.bashrc using the following commands:
