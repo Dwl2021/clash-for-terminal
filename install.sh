@@ -42,6 +42,14 @@ else
   fi
 fi
 
+# Prepare base configuration snapshot and restore for this install run
+if [ ! -f "$SCRIPT_DIR/clash.yml.save" ]; then
+  cp "$SCRIPT_DIR/clash.yml" "$SCRIPT_DIR/clash.yml.save"
+  echo "✓ Created base template: $SCRIPT_DIR/clash.yml.save"
+fi
+cp "$SCRIPT_DIR/clash.yml.save" "$SCRIPT_DIR/clash.yml"
+echo "✓ Restored clash.yml from template"
+
 # Read port from configuration file
 echo ""
 echo "Reading configuration from clash.yml..."
@@ -50,16 +58,44 @@ echo "Reading configuration from clash.yml..."
 if grep -q "^mixed-port:" "$SCRIPT_DIR/clash.yml"; then
   echo ""
   echo "✓ Mixed port configuration detected in clash.yml"
-  echo "Skipping individual port configuration..."
-  
   # Extract mixed port value
   MIXED_PORT=$(grep "^mixed-port:" "$SCRIPT_DIR/clash.yml" | sed 's/mixed-port: *//' | tr -d ' ')
-  echo "Mixed port: $MIXED_PORT"
-  
+  echo "Current mixed port: $MIXED_PORT"
+  # Direct input for mixed-port (Enter to keep current)
+  read -p "Enter mixed-port (press Enter to keep $MIXED_PORT): " custom_mixed_port
+  if [ -n "$custom_mixed_port" ]; then
+    MIXED_PORT=$custom_mixed_port
+    sed -i "s/^mixed-port:.*/mixed-port: $MIXED_PORT/" "$SCRIPT_DIR/clash.yml"
+    echo "✓ Updated clash.yml with mixed-port: $MIXED_PORT"
+  fi
+
   # Set variables for display purposes
   HTTP_PORT="mixed"
   SOCKS_PORT="mixed"
-  EXTERNAL_PORT=$(grep "^external-controller:" "$SCRIPT_DIR/clash.yml" | sed "s/external-controller: *'127.0.0.1://" | sed "s/'//" | tr -d ' ')
+
+  # Extract external-controller port robustly and ask to modify
+  if grep -q "^external-controller:" "$SCRIPT_DIR/clash.yml"; then
+    EC_LINE=$(grep "^external-controller:" "$SCRIPT_DIR/clash.yml" | head -n1 | sed "s/^[[:space:]]*external-controller:[[:space:]]*//")
+    # Remove surrounding quotes if any
+    EC_LINE=${EC_LINE%"'"}
+    EC_LINE=${EC_LINE#"'"}
+    # Extract digits after last colon as port
+    EXTERNAL_PORT=$(echo "$EC_LINE" | sed -E "s/.*:([0-9]+).*/\1/")
+  else
+    EXTERNAL_PORT=9090
+  fi
+  echo "Current external controller port: $EXTERNAL_PORT"
+  # Direct input for external-controller port (Enter to keep current)
+  read -p "Enter external-controller port (press Enter to keep $EXTERNAL_PORT): " custom_external_port
+  if [ -n "$custom_external_port" ]; then
+    EXTERNAL_PORT=$custom_external_port
+    if grep -q "^external-controller:" "$SCRIPT_DIR/clash.yml"; then
+      sed -i "s/^external-controller:.*/external-controller: :$EXTERNAL_PORT/" "$SCRIPT_DIR/clash.yml"
+    else
+      echo "external-controller: :$EXTERNAL_PORT" >> "$SCRIPT_DIR/clash.yml"
+    fi
+    echo "✓ Updated clash.yml with external-controller: :$EXTERNAL_PORT"
+  fi
 else
   # Interactive port configuration
   echo ""
@@ -100,10 +136,36 @@ else
   else
     EXTERNAL_PORT=$custom_external_port
     echo "Using custom external controller port: $EXTERNAL_PORT"
-    # Update clash.yml with custom external controller port
-    sed -i "s/^external-controller:.*/external-controller: '127.0.0.1:$EXTERNAL_PORT'/" "$SCRIPT_DIR/clash.yml"
+    # Update clash.yml with custom external controller port (write as :PORT)
+    if grep -q "^external-controller:" "$SCRIPT_DIR/clash.yml"; then
+      sed -i "s/^external-controller:.*/external-controller: :$EXTERNAL_PORT/" "$SCRIPT_DIR/clash.yml"
+    else
+      echo "external-controller: :$EXTERNAL_PORT" >> "$SCRIPT_DIR/clash.yml"
+    fi
     echo "✓ Updated clash.yml with external controller port: $EXTERNAL_PORT"
   fi
+fi
+
+# Ensure external-ui and secret settings
+echo ""
+echo "Ensuring external-ui and secret settings..."
+
+# Ensure secret is set to empty string '' (override or insert after external-controller)
+if grep -q "^secret:" "$SCRIPT_DIR/clash.yml"; then
+  sed -i "s/^secret:.*/secret: ''/" "$SCRIPT_DIR/clash.yml"
+  echo "✓ Updated secret to empty string"
+else
+  echo "Inserting secret after external-controller"
+  sed -i "/^external-controller:/a secret: ''" "$SCRIPT_DIR/clash.yml"
+fi
+
+# Force external-ui to absolute dashboard path (override or insert after external-controller)
+if grep -q "^external-ui:" "$SCRIPT_DIR/clash.yml"; then
+  sed -i "s|^external-ui:.*|external-ui: '$SCRIPT_DIR/dashboard'|" "$SCRIPT_DIR/clash.yml"
+  echo "✓ Set external-ui to absolute path: $SCRIPT_DIR/dashboard"
+else
+  echo "Inserting external-ui after external-controller"
+  sed -i "/^external-controller:/a external-ui: '$SCRIPT_DIR/dashboard'" "$SCRIPT_DIR/clash.yml"
 fi
 
 # Create startup script
