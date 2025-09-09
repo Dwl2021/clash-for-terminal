@@ -94,8 +94,15 @@ if grep -q "^mixed-port:" "$SCRIPT_DIR/clash.yml"; then
     else
       echo "external-controller: 127.0.0.1:$EXTERNAL_PORT" >> "$SCRIPT_DIR/clash.yml"
     fi
-    echo "✓ Updated clash.yml with external-controller: :$EXTERNAL_PORT"
+    echo "✓ Updated clash.yml with external-controller: 127.0.0.1:$EXTERNAL_PORT"
   fi
+  # Always enforce 127.0.0.1:$EXTERNAL_PORT even if user kept current
+  if grep -q "^external-controller:" "$SCRIPT_DIR/clash.yml"; then
+    sed -i "s/^external-controller:.*/external-controller: 127.0.0.1:$EXTERNAL_PORT/" "$SCRIPT_DIR/clash.yml"
+  else
+    echo "external-controller: 127.0.0.1:$EXTERNAL_PORT" >> "$SCRIPT_DIR/clash.yml"
+  fi
+  echo "✓ Ensured external-controller: 127.0.0.1:$EXTERNAL_PORT"
 else
   # Interactive port configuration
   echo ""
@@ -144,6 +151,13 @@ else
     fi
     echo "✓ Updated clash.yml with external controller port: $EXTERNAL_PORT"
   fi
+  # Always enforce 127.0.0.1:$EXTERNAL_PORT even if user chose default
+  if grep -q "^external-controller:" "$SCRIPT_DIR/clash.yml"; then
+    sed -i "s/^external-controller:.*/external-controller: 127.0.0.1:$EXTERNAL_PORT/" "$SCRIPT_DIR/clash.yml"
+  else
+    echo "external-controller: 127.0.0.1:$EXTERNAL_PORT" >> "$SCRIPT_DIR/clash.yml"
+  fi
+  echo "✓ Ensured external-controller: 127.0.0.1:$EXTERNAL_PORT"
 fi
 
 # Ensure external-ui and secret settings

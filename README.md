@@ -46,8 +46,9 @@ INFO[0000] inbound socks://:7891 create success.
 clash一般都是映射到127.0.0.1:7890端口，如果不确定是不是7890，可以查看clash.yml里面的port设置，**每个新开终端都要输入如下的命令**
 
 ```bash
-export http_proxy=http://127.0.0.1:7890
-export https_proxy=http://127.0.0.1:7890
+PROT=7890
+export http_proxy=http://127.0.0.1:${PROT}
+export https_proxy=http://127.0.0.1:${PROT}
 ```
 
 如果不想每次都这样子输入，可以使用以下命令将函数添加到~/.bashrc：
