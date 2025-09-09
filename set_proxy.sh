@@ -1,21 +1,36 @@
 #!/bin/bash
 
+# ===== User Settings =====
+# Set your HTTP port here (default 7890)
+PORT=7890
+# =========================
+
 # Get script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_FILE="$SCRIPT_DIR/clash.yml"
 
-# Check if config file exists
-if [ ! -f "$CONFIG_FILE" ]; then
-    echo "Error: clash.yml not found"
-    exit 1
-fi
-
-# Read port from clash.yml
-PORT=$(grep "^port:" "$CONFIG_FILE" | head -1 | awk '{print $2}' | tr -d '\r')
-
-if [ -z "$PORT" ]; then
-    echo "Error: port not found in clash.yml, using default 7890"
-    PORT=7890
+# If clash.yml exists, try to read port from it
+if [ -f "$CONFIG_FILE" ]; then
+    # Check if mixed-port exists, if not use port
+    if grep -q "^mixed-port:" "$CONFIG_FILE"; then
+        CFG_PORT=$(grep "^mixed-port:" "$CONFIG_FILE" | head -1 | awk '{print $2}' | tr -d '\r')
+        if [ -n "$CFG_PORT" ]; then
+            PORT=$CFG_PORT
+            echo "Using mixed port from clash.yml: $PORT"
+        else
+            echo "Warning: mixed-port value not found in clash.yml, using default $PORT"
+        fi
+    else
+        CFG_PORT=$(grep "^port:" "$CONFIG_FILE" | head -1 | awk '{print $2}' | tr -d '\r')
+        if [ -n "$CFG_PORT" ]; then
+            PORT=$CFG_PORT
+            echo "Using HTTP port from clash.yml: $PORT"
+        else
+            echo "Warning: port not found in clash.yml, using default $PORT"
+        fi
+    fi
+else
+    echo "Warning: clash.yml not found, using default $PORT"
 fi
 
 # Define proxy functions

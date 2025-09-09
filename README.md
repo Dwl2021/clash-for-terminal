@@ -20,6 +20,8 @@ cd clash-for-terminal
 
 安装脚本会提示您输入订阅链接，然后自动下载配置文件并创建启动脚本。
 
+用户也可以手动下载配置文件，并且命名为clash.yml放在仓库的根目录即可跳过下载阶段。
+
 ### 3. 启动 Clash
 
 ```bash
@@ -51,13 +53,14 @@ export https_proxy=http://127.0.0.1:7890
 如果不想每次都这样子输入，可以使用以下命令将函数添加到~/.bashrc：
 
 ```bash
-echo 'proxy_on() { export http_proxy=http://127.0.0.1:7890; export https_proxy=http://127.0.0.1:7890;}' >> ~/.bashrc
-echo 'proxy_off() { unset http_proxy; unset https_proxy;}' >> ~/.bashrc
+./echo_bashrc.sh
 ```
+
+然后输入你设定的端口
 
 然后执行 `source ~/.bashrc` 重新加载配置，之后就可以使用 `proxy_on` 开启代理，`proxy_off` 关闭代理。
 
-或者直接使用脚本（推荐）：
+或者每次启动新的终端直接使用脚本（推荐），这样就不会修改`.bashrc`，更安全：
 
 ```bash
 source ./set_proxy.sh
@@ -69,7 +72,8 @@ source ./set_proxy.sh
 
 ```bash
 # 手动测试
-curl -I --proxy http://127.0.0.1:7890 http://www.youtube.com
+PORT=7890
+curl -I --proxy http://127.0.0.1:$PORT http://www.youtube.com
 
 # 或使用脚本自动测试（推荐）
 ./test_youtube.sh
@@ -80,8 +84,9 @@ curl -I --proxy http://127.0.0.1:7890 http://www.youtube.com
 基本设置完成就可以git push 和 git clone了
 
 ```bash
-git config --global http.proxy http://127.0.0.1:7890
-git config --global https.proxy http://127.0.0.1:7890
+PORT=7890
+git config --global http.proxy http://127.0.0.1:$PORT
+git config --global https.proxy http://127.0.0.1:$PORT
 ```
 
 ### 6. 更改代理
@@ -118,11 +123,12 @@ ssh -L 端口1:localhost:端口2 服务器用户名@服务器IP
 对于有桌面版的ubuntu，可以通过手动设置vpn实现全局的http代理。
 
 ```bash
+PORT=7890
 gsettings set org.gnome.system.proxy mode 'manual'
 gsettings set org.gnome.system.proxy.http host 'ip'
-gsettings set org.gnome.system.proxy.http port 7890
+gsettings set org.gnome.system.proxy.http port $PORT
 gsettings set org.gnome.system.proxy.https host 'ip'
-gsettings set org.gnome.system.proxy.https port 7890
+gsettings set org.gnome.system.proxy.https port $PORT
 ```
 
 

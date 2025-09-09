@@ -1,5 +1,7 @@
 # Clash for Terminal Configuration
 
+[中文版 README](README.md)
+
 ## Quick Start
 
 ### 1. Get Subscription Link
@@ -15,6 +17,8 @@ cd clash-for-terminal
 ```
 
 The installation script will prompt you to enter the subscription link, then automatically download the configuration file and create a startup script.
+
+You can also manually download the configuration file and name it `clash.yml` in the repository root directory to skip the download step.
 
 ### 3. Start Clash
 
@@ -47,13 +51,14 @@ export https_proxy=http://127.0.0.1:7890
 If you don't want to type this every time, you can add functions to ~/.bashrc using the following commands:
 
 ```bash
-echo 'proxy_on() { export http_proxy=http://127.0.0.1:7890; export https_proxy=http://127.0.0.1:7890;}' >> ~/.bashrc
-echo 'proxy_off() { unset http_proxy; unset https_proxy;}' >> ~/.bashrc
+./echo_bashrc.sh
 ```
+
+Then enter your configured port.
 
 Then execute `source ~/.bashrc` to reload the configuration, after which you can use `proxy_on` to enable the proxy and `proxy_off` to disable it.
 
-Or use the script directly (recommended):
+Or use the script directly for each new terminal (recommended), which won't modify `.bashrc` and is safer:
 
 ```bash
 source ./set_proxy.sh
@@ -65,7 +70,8 @@ Using the http protocol to access YouTube, if you see a lot of webpage content, 
 
 ```bash
 # Manual test
-curl -I --proxy http://127.0.0.1:7890 http://www.youtube.com
+PORT=7890
+curl -I --proxy http://127.0.0.1:$PORT http://www.youtube.com
 
 # Or use script for automatic testing (recommended)
 ./test_youtube.sh
@@ -76,8 +82,9 @@ curl -I --proxy http://127.0.0.1:7890 http://www.youtube.com
 After basic setup, you can git push and git clone
 
 ```bash
-git config --global http.proxy http://127.0.0.1:7890
-git config --global https.proxy http://127.0.0.1:7890
+PORT=7890
+git config --global http.proxy http://127.0.0.1:$PORT
+git config --global https.proxy http://127.0.0.1:$PORT
 ```
 
 ### 6. Change Proxy
@@ -112,13 +119,15 @@ For specific Clash API usage methods, you can refer to [Clash API](https://clash
 For Ubuntu with desktop version, you can manually set VPN to achieve global HTTP proxy.
 
 ```bash
+PORT=7890
 gsettings set org.gnome.system.proxy mode 'manual'
 gsettings set org.gnome.system.proxy.http host 'ip'
-gsettings set org.gnome.system.proxy.http port 7890
+gsettings set org.gnome.system.proxy.http port $PORT
 gsettings set org.gnome.system.proxy.https host 'ip'
-gsettings set org.gnome.system.proxy.https port 7890
+gsettings set org.gnome.system.proxy.https port $PORT
 ```
 
 ---
 
 [中文版 README](README.md)
+
