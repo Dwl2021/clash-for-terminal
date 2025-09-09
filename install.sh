@@ -90,9 +90,9 @@ if grep -q "^mixed-port:" "$SCRIPT_DIR/clash.yml"; then
   if [ -n "$custom_external_port" ]; then
     EXTERNAL_PORT=$custom_external_port
     if grep -q "^external-controller:" "$SCRIPT_DIR/clash.yml"; then
-      sed -i "s/^external-controller:.*/external-controller: :$EXTERNAL_PORT/" "$SCRIPT_DIR/clash.yml"
+      sed -i "s/^external-controller:.*/external-controller: 127.0.0.1:$EXTERNAL_PORT/" "$SCRIPT_DIR/clash.yml"
     else
-      echo "external-controller: :$EXTERNAL_PORT" >> "$SCRIPT_DIR/clash.yml"
+      echo "external-controller: 127.0.0.1:$EXTERNAL_PORT" >> "$SCRIPT_DIR/clash.yml"
     fi
     echo "✓ Updated clash.yml with external-controller: :$EXTERNAL_PORT"
   fi
@@ -138,9 +138,9 @@ else
     echo "Using custom external controller port: $EXTERNAL_PORT"
     # Update clash.yml with custom external controller port (write as :PORT)
     if grep -q "^external-controller:" "$SCRIPT_DIR/clash.yml"; then
-      sed -i "s/^external-controller:.*/external-controller: :$EXTERNAL_PORT/" "$SCRIPT_DIR/clash.yml"
+      sed -i "s/^external-controller:.*/external-controller: 127.0.0.1:$EXTERNAL_PORT/" "$SCRIPT_DIR/clash.yml"
     else
-      echo "external-controller: :$EXTERNAL_PORT" >> "$SCRIPT_DIR/clash.yml"
+      echo "external-controller: 127.0.0.1:$EXTERNAL_PORT" >> "$SCRIPT_DIR/clash.yml"
     fi
     echo "✓ Updated clash.yml with external controller port: $EXTERNAL_PORT"
   fi
